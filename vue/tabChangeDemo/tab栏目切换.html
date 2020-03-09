@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tab栏切换</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+        .tabBox{
+            border: 1px solid #ccc;
+            width: 80%;
+            min-height: 300px;
+            overflow-y: auto;
+            margin: 50px auto;
+        }
+        .tabBox .tab {
+            border-bottom: 1px solid #ccc;
+            background-color: #eee;
+        }
+        .tabBox .tabContent{
+            padding: 20px;
+        }
+        .spanStyle {
+            display: inline-block;
+            padding: 10px;
+            border-right: 1px solid #ccc;
+            width: 80px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .currentTabStyle{
+            background-color: red;
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <div class="tabBox">
+            <div class="tab">
+                <span
+                    :class="['spanStyle', {currentTabStyle: index === parseInt(currentTab) }]"
+                    v-for="(item,index) in tabData"
+                    @click="changeTab(item, index, $event)"
+                >
+                    {{ item.type }}
+                </span>
+            </div>
+
+            <div class="tabContent">
+                <div class="content" v-for="(item,index) in tabData">
+                    <div v-show="index === parseInt(currentTab)" >{{ item.introduce }}</div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data(){
+                return{
+                    currentTabStyle: 'currentTabStyle',
+                    currentTab: '0',
+                    tabData: [
+                        {
+                            id: 't001',
+                            type: '前端',
+                            introduce: '前端即网站前台部分，运行在PC端，移动端等浏览器上展现给用户浏览的网页。随着互联网技术的发展，HTML5，CSS3，前端框架的应用，跨平台响应式网页设计能够适应各种屏幕分辨率，完美的动效设计，给用户带来极高的用户体验',
+                        },
+                        {
+                            id: 't002',
+                            type: '后台',
+                            introduce: '后台，指网站后台，有时也称为网站管理后台，是指用于管理网站前台的一系列操作，如：产品、企业信息的增加、更新、删除等。'
+                        },
+                        {
+                            id: 't003',
+                            type: 'UI',
+                            introduce: 'UI设计（或称界面设计）是指对软件的人机交互、操作逻辑、界面美观的整体设计。UI设计分为实体UI和虚拟UI，互联网常用的UI设计是虚拟UI，UI即User Interface(用户界面)的简称。'
+                        }
+                    ]
+                }
+            },
+            methods:{
+                changeTab(itemTab, index, event){
+                    // console.log(itemTab.type);
+                    this.currentTab = index;
+                }
+            }
+
+        })
+    </script>
+</body>
+</html>
